@@ -8,7 +8,7 @@ describe("Image analyser test suite", () => {
   it("Should analyse successfuly the image returning the results", async () => {
     const expected = {
       statusCode: 200,
-      body: "",
+      body: "Animal e canino e cão e mamífero e animal de estimação e cachorrinho e grama e planta e Golden Retriever e gramado",
     };
 
     const result = await main(validRequestMock);

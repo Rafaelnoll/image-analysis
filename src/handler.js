@@ -1,4 +1,5 @@
 const { DetectLabelsCommand } = require("@aws-sdk/client-rekognition");
+const { TranslateTextCommand } = require("@aws-sdk/client-translate");
 
 module.exports = class Handler {
   constructor({ rekognitionClient, translatorClient, httpClient }) {
@@ -28,9 +29,19 @@ module.exports = class Handler {
     return response.Labels.map(({ Name }) => Name).join(" and ");
   }
 
+  async translateLabels(labels) {
+    const command = new TranslateTextCommand({
+      SourceLanguageCode: "en",
+      TargetLanguageCode: "pt",
+      Text: labels,
+    });
+
+    const response = await this.translatorClient.send(command);
+    return response.TranslatedText;
+  }
+
   async main(event) {
     try {
-      console.log("Event", event);
       const { imageUrl } = event.queryStringParameters;
 
       if (!imageUrl) {
@@ -42,11 +53,11 @@ module.exports = class Handler {
 
       const imageBuffer = await this.getImageBuffer(imageUrl);
       const labels = await this.detectImageLabels(imageBuffer);
-      console.log({ labels });
+      const translatedText = await this.translateLabels(labels);
 
       return {
         statusCode: 200,
-        body: "Hello!",
+        body: translatedText,
       };
     } catch (error) {
       console.error(error);
