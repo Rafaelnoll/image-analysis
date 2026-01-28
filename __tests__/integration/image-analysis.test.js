@@ -1,7 +1,37 @@
 const { describe, it, expect } = require("@jest/globals");
+const validRequestMock = require("../mocks/valid-request.json");
+const emptyUrlRequestMock = require("../mocks/empty-image-url-request.json");
+const invalidUrlRequestMock = require("../mocks/invalid-image-url-request.json");
+const { main } = require("../../src");
 
 describe("Image analyser test suite", () => {
-  it.todo("Should analyse successfuly the image returning the results");
-  it.todo("Should return status code 400 when given an empty queryString");
-  it.todo("Should return status code 500 when given an invalid image URL");
+  it("Should analyse successfuly the image returning the results", async () => {
+    const expected = {
+      statusCode: 200,
+      body: "",
+    };
+
+    const result = await main(validRequestMock);
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("Should return status code 400 when given an empty queryString", async () => {
+    const expected = {
+      statusCode: 400,
+      body: "Image URL is required",
+    };
+
+    const result = await main(emptyUrlRequestMock);
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("Should return status code 500 when given an invalid image URL", async () => {
+    const expected = {
+      statusCode: 500,
+      body: "Internal server error",
+    };
+
+    const result = await main(invalidUrlRequestMock);
+    expect(result).toStrictEqual(expected);
+  });
 });

@@ -1,10 +1,15 @@
-const awsTranslate = require("@aws-sdk/client-translate");
-const awsRekognition = require("@aws-sdk/client-rekognition");
+const { TranslateClient } = require("@aws-sdk/client-translate");
+const { RekognitionClient } = require("@aws-sdk/client-rekognition");
 const Handler = require("./handler");
+const axios = require("axios");
+
+const rekognitionClient = new RekognitionClient();
+const translatorClient = new TranslateClient();
 
 const handler = new Handler({
-  rekognitionClient: awsRekognition.RekognitionClient,
-  translatorClient: awsTranslate.TranslateClient,
+  rekognitionClient,
+  translatorClient,
+  httpClient: axios,
 });
 
 module.exports = handler.main.bind(handler);

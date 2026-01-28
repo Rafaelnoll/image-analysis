@@ -7,8 +7,8 @@
     "invoke": "npx sls invoke -f image-analysis",
     "invoke-local": "npx sls invoke local -f image-analysis",
     "deploy": "npx sls deploy",
-    "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.975.0",
-    "@aws-sdk/client-translate": "^3.975.0"
+    "@aws-sdk/client-translate": "^3.975.0",
+    "axios": "^1.13.4"
   }
 }
