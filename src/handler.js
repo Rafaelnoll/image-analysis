@@ -26,7 +26,14 @@ module.exports = class Handler {
     });
 
     const response = await this.rekognitionClient.send(command);
-    return response.Labels.map(({ Name }) => Name).join(" and ");
+
+    const workingItems = response.Labels;
+    const labels = workingItems.map(({ Name }) => Name).join(" and ");
+
+    return {
+      workingItems,
+      labels,
+    };
   }
 
   async translateLabels(labels) {
@@ -37,7 +44,22 @@ module.exports = class Handler {
     });
 
     const response = await this.translatorClient.send(command);
-    return response.TranslatedText;
+    return response.TranslatedText.split(" e ");
+  }
+
+  formatLabelsResult(labels, workingItems) {
+    const finalText = [];
+
+    for (const textIndex in labels) {
+      const labelInPortuguese = labels[textIndex];
+      const confidence = workingItems[textIndex].Confidence;
+
+      finalText.push(
+        `${confidence.toFixed(2)}% de ser do tipo ${labelInPortuguese}`,
+      );
+    }
+
+    return finalText.join("\n");
   }
 
   async main(event) {
@@ -52,12 +74,14 @@ module.exports = class Handler {
       }
 
       const imageBuffer = await this.getImageBuffer(imageUrl);
-      const labels = await this.detectImageLabels(imageBuffer);
-      const translatedText = await this.translateLabels(labels);
+      const { labels, workingItems } =
+        await this.detectImageLabels(imageBuffer);
+      const translatedLabels = await this.translateLabels(labels);
+      const finalText = this.formatLabelsResult(translatedLabels, workingItems);
 
       return {
         statusCode: 200,
-        body: translatedText,
+        body: `A imagem tem\n`.concat(finalText),
       };
     } catch (error) {
       console.error(error);

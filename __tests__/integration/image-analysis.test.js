@@ -6,9 +6,22 @@ const { main } = require("../../src");
 
 describe("Image analyser test suite", () => {
   it("Should analyse successfuly the image returning the results", async () => {
+    const finalText = [
+      "100.00% de ser do tipo Animal",
+      "100.00% de ser do tipo canino",
+      "100.00% de ser do tipo cão",
+      "100.00% de ser do tipo mamífero",
+      "100.00% de ser do tipo animal de estimação",
+      "100.00% de ser do tipo cachorrinho",
+      "99.99% de ser do tipo grama",
+      "99.99% de ser do tipo planta",
+      "99.51% de ser do tipo Golden Retriever",
+      "86.19% de ser do tipo gramado",
+    ];
+
     const expected = {
       statusCode: 200,
-      body: "Animal e canino e cão e mamífero e animal de estimação e cachorrinho e grama e planta e Golden Retriever e gramado",
+      body: "A imagem tem\n".concat(finalText.join("\n")),
     };
 
     const result = await main(validRequestMock);
