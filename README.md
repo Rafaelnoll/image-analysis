@@ -1,69 +1,84 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v4
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, Inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github) ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
-# Serverless Framework Node HTTP API on AWS
+# 📸 Serverless Image Analysis API
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+A **serverless API** that analyzes images using **AWS Rekognition** and automatically **translates detected labels into Portuguese**.
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+## 🚀 Features
 
-## Usage
+- 🧠 Image analysis using **AWS Rekognition**
+- 🌍 Automatic translation of detected labels to **Portuguese**
+- ⚡ Fast execution using **AWS Lambda**
+- 📦 Deployment with **Serverless Framework**
 
-### Deployment
+## 🛠️ Tech Stack
 
-In order to deploy the example, you need to run the following command:
+- **Node.js**
+- **AWS Lambda**
+- **AWS Rekognition**
+- **AWS Translate**
+- **Serverless Framework**
 
-```
-serverless deploy
-```
+## ⚙️ Requirements
 
-After running deploy, you should see output similar to:
+- Node.js **v20+**
+- AWS Account
+- AWS CLI configured (For Serverless Framework)
 
-```
-Deploying "serverless-http-api" to stage "dev" (us-east-1)
+---
 
-✔ Service deployed to stack serverless-http-api-dev (91s)
+## 📦 Installation
 
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: serverless-http-api-dev-hello (1.6 kB)
+```bash
+git clone https://github.com/Rafaelnoll/image-analysis.git
+cd image-analysis
+npm install
 ```
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [HTTP API (API Gateway V2) event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api).
+---
 
-### Invocation
+## ▶️ Running Locally
 
-After successful deployment, you can call the created application via HTTP:
-
-```
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
+```bash
+npm run invoke-local
 ```
 
-Which should result in response similar to:
+---
 
-```json
-{ "message": "Go Serverless v4! Your function executed successfully!" }
+## ☁️ Deploying to AWS
+
+```bash
+npm run deploy
 ```
 
-### Local development
+After deployment, the API endpoint will be shown in the terminal.
 
-The easiest way to develop and test your function is to use the `dev` command:
+---
 
+## 📥 Example Request
+
+### CURL (Example)
+
+```bash
+curl https://API_HOST/analyse?imageUrl=IMAGE_URL
 ```
-serverless dev
+
+### Response
+
+```text
+A imagem tem
+99.96% de ser do tipo Animal
+99.96% de ser do tipo canino
+99.96% de ser do tipo cão
+99.96% de ser do tipo golden retriever
+99.96% de ser do tipo mamífero
+99.96% de ser do tipo animal de estimação
 ```
 
-This will start a local emulator of AWS Lambda and tunnel your requests to and from AWS Lambda, allowing you to interact with your function as if it were running in the cloud.
+---
 
-Now you can invoke the function as before, but this time the function will be executed locally. Now you can develop your function locally, invoke it, and see the results immediately without having to re-deploy.
+## 🧪 Testing
 
-When you are done developing, don't forget to run `serverless deploy` to deploy the function to the cloud.
+```bash
+npm test
+```
