@@ -6,7 +6,9 @@
   "scripts": {
     "invoke": "npx sls invoke -f image-analysis",
     "invoke-local": "npx sls invoke local -f image-analysis",
-    "deploy": "npx sls deploy"
+    "deploy": "npx sls deploy",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "repository": {
     "type": "git",
